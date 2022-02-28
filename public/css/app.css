@@ -951,6 +951,9 @@ select {
 .top-0 {
   top: 0px;
 }
+.top-\[3\.8125rem\] {
+  top: 3.8125rem;
+}
 .z-0 {
   z-index: 0;
 }
@@ -960,8 +963,14 @@ select {
 .z-40 {
   z-index: 40;
 }
+.z-20 {
+  z-index: 20;
+}
 .col-span-6 {
   grid-column: span 6 / span 6;
+}
+.col-span-2 {
+  grid-column: span 2 / span 2;
 }
 .mx-auto {
   margin-left: auto;
@@ -1194,6 +1203,9 @@ select {
 }
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-8 {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;

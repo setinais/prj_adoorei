@@ -1,16 +1,24 @@
 <template>
-    <Head title="Welcome" />
-
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div class="fixed top-0 right-0 px-6 py-4 sm:block">
-            <adding-code></adding-code>
-
+    <Head title="Rastrear Encomenda" />
+    <div class="grid grid-cols-8">
+        <div class="col-span-2 z-20 inset-0 top-[3.8125rem] ">
+            <img src="" alt="">
+            Adoorei
         </div>
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="col-span-6">
+            <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+                <div class="fixed top-0 right-0 px-6 py-4 sm:block">
+                    <adding-code></adding-code>
+                    <jet-button-refresh-code @click="refreshCode">
+                        ATUALIZAR CÓDIGOS
+                    </jet-button-refresh-code>
+                </div>
+                <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
+                </div>
+            </div>
         </div>
     </div>
-
 </template>
 
 <style scoped>
@@ -81,17 +89,20 @@
     import { defineComponent } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import AddingCode from "@/Pages/Rastreio/AddingCode"
-
+    import JetButtonRefreshCode from "@/Jetstream/SecondaryButton"
 
     export default defineComponent({
         components: {
             Head,
             Link,
             AddingCode,
+            JetButtonRefreshCode
         },
 
         methods: {
+            refreshCode(){
 
+            }
         }
     })
 </script>

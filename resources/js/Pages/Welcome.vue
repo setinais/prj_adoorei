@@ -2,20 +2,15 @@
     <Head title="Welcome" />
 
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            <Link v-if="$page.props.user" :href="route('dashboard')" class="text-sm text-gray-700 underline">
-                Dashboard
-            </Link>
-
+        <div class="fixed top-0 right-0 px-6 py-4 sm:block">
+            <adding-code></adding-code>
 
         </div>
-
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
-            <adding-code></adding-code>
-            <rbutton>Adding</rbutton>
         </div>
     </div>
+
 </template>
 
 <style scoped>
@@ -86,14 +81,13 @@
     import { defineComponent } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import AddingCode from "@/Pages/Rastreio/AddingCode"
-    import Rbutton from '@/Jetstream/Button'
+
 
     export default defineComponent({
         components: {
             Head,
             Link,
             AddingCode,
-            Rbutton
         },
 
         methods: {

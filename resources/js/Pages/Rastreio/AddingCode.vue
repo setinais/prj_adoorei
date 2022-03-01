@@ -1,5 +1,5 @@
 <template>
-    <jet-button @click="showModalAddCode">
+    <jet-button @click="showModalAddCode" class="bg-gray-400 text-white text-[9px]">
         CADASTRAR CÓDIGO
     </jet-button>
     <jet-modal :show="showModalAddingCode" @close="closeModal">

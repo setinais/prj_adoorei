@@ -6,28 +6,23 @@
         <template #title>
             Cadastrar Código
         </template>
-
         <template #content>
             Informe o codigo de rastreio que deseja acompanhar
-
             <div class="mt-4">
                 <jet-input type="text" class="mt-1 block w-3/4" placeholder="Código"
                            ref="Código"
                            v-model="form.code"
-                           @keyup.enter="deleteUser"
-                            aria-required="true"/>
-
+                           @keyup.enter="createCode"
+                           aria-required="true"/>
                 <jet-input-error :message="form.errors.code" class="mt-2" />
             </div>
         </template>
-
         <template #footer>
             <jet-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click="createCode">
                 MONITORAR
             </jet-button>
         </template>
     </jet-modal>
-
 </template>
 
 <style scoped>

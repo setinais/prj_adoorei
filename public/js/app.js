@@ -20122,7 +20122,8 @@ __webpack_require__.r(__webpack_exports__);
       showModalAddingCode: false,
       form: this.$inertia.form({
         code: ''
-      })
+      }),
+      codeData: this.$inertia.form({})
     };
   },
   methods: {
@@ -20136,7 +20137,7 @@ __webpack_require__.r(__webpack_exports__);
     createCode: function createCode() {
       var _this = this;
 
-      this.form.post(route('code.create'), {
+      this.form.post(route('code.store'), {
         preserveScroll: true,
         onSuccess: function onSuccess() {
           return _this.closeModal();

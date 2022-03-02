@@ -48,7 +48,11 @@
                 showModalAddingCode: false,
                 form: this.$inertia.form({
                     code: ''
+                }),
+                codeData: this.$inertia.form({
+
                 })
+
             }
         },
         methods: {
@@ -60,7 +64,7 @@
                 this.form.reset()
             },
             createCode() {
-                this.form.post(route('code.create'), {
+                this.form.post(route('code.store'), {
                     preserveScroll: true,
                     onSuccess: () => this.closeModal(),
                     onError: () => this.$refs.code.focus(),

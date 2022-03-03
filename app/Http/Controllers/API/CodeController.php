@@ -12,11 +12,16 @@ class CodeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return EventsCode[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return Code::order();
+        try
+        {
+            return response()->json(Code::orderByDesc('created_at')->get(), 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
+        }
     }
 
     /**
@@ -27,30 +32,38 @@ class CodeController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
-        $input = $request['objetos']['0'];
-
-        $code = new Code();
-        $code->code = $input['codObjeto'];
-        $code->modality = $input['modalidade'];
-        $code->enable_self_declaration = $input['habilitaAutoDeclaracao'];
-        $code->allow_import_tax = $input['permiteEncargoImportacao'];
-        $code->enable_travel_postman = $input['habilitaPercorridaCarteiro'];
-        $code->lock_object = $input['bloqueioObjeto'];
-        $code->has_locker = $input['possuiLocker'];
-        $code->enable_locker = $input['habilitaLocker'];
-
-        if(Code::find($input['codObjeto']) !== null)
+        try
         {
-            return response()->json(['mensagem' => 'Objeto já cadastrado!'], 422);
-        }
+            $requestCodeApi = RequestCodeController::getCodeApiClient($request['code']);
 
-        if(isset($input['mensagem']))
-        {
-            $code = $this->checkRequestCode($code, $input);
-        }else{
-            $code = $this->storeOrUpdateCodeWithEvents($code, $input);
+            $input = $requestCodeApi['objetos'][0];
+
+            $code = new Code();
+            $code->code = $input['codObjeto'];
+            $code->modality = $input['modalidade'];
+            $code->enable_self_declaration = $input['habilitaAutoDeclaracao'];
+            $code->allow_import_tax = $input['permiteEncargoImportacao'];
+            $code->enable_travel_postman = $input['habilitaPercorridaCarteiro'];
+            $code->lock_object = $input['bloqueioObjeto'];
+            $code->has_locker = $input['possuiLocker'];
+            $code->enable_locker = $input['habilitaLocker'];
+
+            if(Code::find($input['codObjeto']) !== null)
+            {
+                return response()->json(['message' => 'Objeto já cadastrado!'], 422);
+            }
+
+            if(isset($input['mensagem']))
+            {
+                $code = $this->checkRequestCode($code, $input);
+            }else{
+                $code = $this->storeOrUpdateCodeWithEvents($code, $input);
+            }
+            return response()->json($code,200);
+
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
         }
-        return response()->json($code,200);
     }
 
     private function checkRequestCode(Code $code, $input)
@@ -58,7 +71,7 @@ class CodeController extends Controller
         switch ($input['mensagem'])
         {
             case 'SRO-019: Objeto inválido':
-                $code = ['mensagem' => 'Código inválido'];
+                $code = ['message' => 'Código inválido'];
                 break;
             case 'SRO-020: Objeto não encontrado na base de dados dos Correios.':
                 $code = $this->storeCodeWithoutEvents($code);
@@ -96,18 +109,24 @@ class CodeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $input = $request['objetos']['0'];
+        try
+        {
+            $requestCodeApi = RequestCodeController::getCodeApiClient($id);
 
-        $code = Code::find($id);
-        $code = $this->storeOrUpdateCodeWithEvents($code, $input);
+            $input = $requestCodeApi['objetos'][0];
 
-        return response()->json($code);
+            $code = Code::find($id);
+            $code = $this->storeOrUpdateCodeWithEvents($code, $input);
+
+            return response()->json($code);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
+        }
     }
 
     /**

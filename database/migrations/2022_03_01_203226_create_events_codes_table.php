@@ -15,6 +15,16 @@ class CreateEventsCodesTable extends Migration
     {
         Schema::create('events_codes', function (Blueprint $table) {
             $table->id();
+            $table->string('code_event');
+            $table->string('code_id');
+            $table->string('description');
+            $table->timestamp('date_create');
+            $table->string('type');
+            $table->string('unity');
+            $table->string('unity_type');
+            $table->json('address')->nullable();
+            $table->string('unity_coutry')->nullable();
+            $table->string('unity_codSro')->nullable();
             $table->timestamps();
         });
     }

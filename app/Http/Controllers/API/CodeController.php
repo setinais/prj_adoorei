@@ -32,7 +32,13 @@ class CodeController extends Controller
     {
         try
         {
-            return response()->json(Code::orderByDesc('created_at')->get(), 200);
+            $events = EventsCode::where('code_id', $code)->orderByDesc('date_create')->get();
+            $events_code = [];
+            foreach ($events as $event) {
+                $event->unity = json_decode($event->unity);
+                $events_code[] = $event;
+            }
+            return response()->json($events_code, 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
         }
@@ -97,7 +103,6 @@ class CodeController extends Controller
     {
         $code->status = 'Aguardando Postagem';
         $code->save();
-
         return $code;
     }
 
@@ -110,13 +115,12 @@ class CodeController extends Controller
         $code->enable_crowdshipping = $input['habilitaCrowdshipping'];
         $code->status = $this->getStatusEvent($events[0]['descricao']);
         $code->save();
-        $test = [];
+
         for($i = count($events)-1; $i >= 0; $i--)
         {
             if(count(EventsCode::where('code_id', $code->code)->where('date_create', $events[$i]['dtHrCriado'])->get()) == 0)
                 $code->eventsCodes()->save(EventsCodeController::storeEventCode($events[$i]));
         }
-
         return $code;
     }
 

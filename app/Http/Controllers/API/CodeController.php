@@ -23,7 +23,20 @@ class CodeController extends Controller
             return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
         }
     }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($code)
+    {
+        try
+        {
+            return response()->json(Code::orderByDesc('created_at')->get(), 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -90,6 +103,7 @@ class CodeController extends Controller
 
     private function storeOrUpdateCodeWithEvents(Code $code, $input)
     {
+
         $events = $input['eventos'];
 
         $code->postcard_type = json_encode($input['tipoPostal']);
@@ -112,32 +126,16 @@ class CodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($id)
+    public function update(Code $code, $input)
     {
         try
         {
-            $requestCodeApi = RequestCodeController::getCodeApiClient($id);
-
-            $input = $requestCodeApi['objetos'][0];
-
-            $code = Code::find($id);
-            $code = $this->storeOrUpdateCodeWithEvents($code, $input);
-
-            return response()->json($code);
+            if(isset($input['eventos']))
+                $code = $this->storeOrUpdateCodeWithEvents($code, $input);
+            return $code;
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro Interno, contate o Administrador!'], 500);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     private function getStatusEvent($status): string

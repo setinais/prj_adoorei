@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CodeController;
-
+use App\Http\Controllers\API\RequestCodeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('code', CodeController::class);
-//https://proxyapp.correios.com.br/v1/sro-rastro/LB294252978HK  Api de consulta correios
+Route::get('update-all-codes', [RequestCodeController::class, 'updateAllCodes']);

@@ -77,12 +77,14 @@
             return {
                 showModalAddingCode: false,
                 form: this.$inertia.form({
-                    code: ''
+                    code: '',
+                    status: '',
+                    
                 })
             }
         },
         methods: {
-            refreshCode(){
+            getCodes(){
 
             }
         }

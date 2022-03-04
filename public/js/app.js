@@ -20181,12 +20181,13 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showModalAddingCode: false,
       form: this.$inertia.form({
-        code: ''
+        code: '',
+        status: ''
       })
     };
   },
   methods: {
-    refreshCode: function refreshCode() {}
+    getCodes: function getCodes() {}
   }
 }));
 
